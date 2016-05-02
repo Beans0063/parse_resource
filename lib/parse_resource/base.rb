@@ -196,9 +196,14 @@ module ParseResource
       end
     end
 
-    # Gets the current class's Parse.com base_uri
+
+    def self.api_path
+      ENV['BASE_API_PATH'] || 'https://api.parse.com/1'
+    end
+    
+        # Gets the current class's Parse.com base_uri
     def self.model_base_uri
-      "https://api.parse.com/1/#{model_name_uri}"
+      "#{api_path}/#{model_name_uri}"
     end
 
     # Gets the current instance's parent class's Parse.com base_uri
@@ -228,7 +233,7 @@ module ParseResource
       return true if save_objects.blank?
       load_settings
 
-      base_uri = "https://api.parse.com/1/batch"
+      base_uri = "#{api_path}/batch"
       app_id     = @@settings['app_id']
       master_key = @@settings['master_key']
 
@@ -310,7 +315,7 @@ module ParseResource
     def self.upload(file_instance, filename, options={})
       load_settings
 
-      base_uri = "https://api.parse.com/1/files"
+      base_uri = "#{api_path}/files"
 
       #refactor to settings['app_id'] etc
       app_id     = @@settings['app_id']
